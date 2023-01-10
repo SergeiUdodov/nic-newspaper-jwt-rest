@@ -15,7 +15,7 @@ CREATE TABLE `user` (
   
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
-INSERT INTO `user` (first_name,last_name,email,password)
+INSERT INTO `user` (first_name,last_name,email,password) /* default password : fun123 */
 VALUES 
 ('John','Doe','john@luv2code.com', '$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K'),
 ('Mary','Public','mary@luv2code.com', '$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K'),
