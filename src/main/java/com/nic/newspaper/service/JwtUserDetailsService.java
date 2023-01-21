@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.nic.newspaper.dao.UserDAO;
+import com.nic.newspaper.entity.Role;
 import com.nic.newspaper.model.CrmUser;
 
 @Service
@@ -35,7 +36,10 @@ public class JwtUserDetailsService implements UserDetailsService {
 		if (user == null) {
 			throw new UsernameNotFoundException("User not found with username: " + username);
 		}
-		return new User(user.getFirstName(), user.getPassword(), new ArrayList<>());
+		
+		logger.warn(user.getRoles());
+		
+		return new User(user.getFirstName(), user.getPassword(), user.getRoles());
 
 	}
 

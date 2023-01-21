@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.nic.newspaper.entity.Article;
-import com.nic.newspaper.entity.Comment;
-import com.nic.newspaper.entity.User;
 
 import jakarta.persistence.EntityManager;
 
@@ -18,18 +16,50 @@ public class ArticleDaoImpl implements ArticleDao {
 
 	@Autowired
 	private EntityManager entityManager;
-	
+
 	@Override
 	public List<Article> findAll() {
-		
+
 		Session currentSession = entityManager.unwrap(Session.class);
-				
-		Query<Article> theQuery =
-						currentSession.createQuery("from Article", Article.class);
+
+		Query<Article> theQuery = currentSession.createQuery("from Article", Article.class);
 
 		List<Article> articles = theQuery.getResultList();
-	
+
 		return articles;
+	}
+
+	@Override
+	public Article save(Article theArticle) {
+
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		currentSession.persist(theArticle);
+
+		return currentSession.get(Article.class, theArticle.getId());
+
+	}
+
+	@Override
+	public Article findArticleById(int articleId) {
+
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		Article theArticle = currentSession.get(Article.class, articleId);
+
+		return theArticle;
+	}
+
+	@Override
+	public void deleteArticleById(int articleId) {
+
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		Query theQuery = currentSession.createQuery("delete from Article where id=:ArticleId");
+		theQuery.setParameter("ArticleId", articleId);
+
+		theQuery.executeUpdate();
+
 	}
 
 }
