@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +29,12 @@ public class ArticleRestController {
 		return articleService.findAll();
 	}
 
+	@GetMapping("/articles/{articleId}")
+	public Article findArticleById(@PathVariable int articleId) {
+
+		return articleService.findArticleById(articleId);
+	}
+	
 	@PostMapping("/addArticle")
 	public Article addArticle(@RequestBody CrmArticle theArticle) {
 
@@ -49,6 +56,12 @@ public class ArticleRestController {
 		articleService.deleteArticleById(articleId);
 
 		return "Deleted Article id - " + articleId;
+	}
+
+	@PutMapping("/updateArticle/{articleId}")
+	public Article updateArticle(@PathVariable int articleId, @RequestBody CrmArticle theArticle) {
+
+		return articleService.update(articleId, theArticle);
 	}
 
 }

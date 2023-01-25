@@ -41,7 +41,18 @@ public class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
-	public Article findArticleById(int articleId) {
+	public Article update(Article theArticle) {
+
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		currentSession.saveOrUpdate(theArticle);
+
+		return currentSession.get(Article.class, theArticle.getId());
+
+	}
+
+	@Override
+	public Article findArticleById(long articleId) {
 
 		Session currentSession = entityManager.unwrap(Session.class);
 

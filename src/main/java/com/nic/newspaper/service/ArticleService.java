@@ -15,4 +15,6 @@ public interface ArticleService {
 
 	public void deleteArticleById(int articleId);
 
+	public Article update(int articleId, CrmArticle theArticle);
+
 }

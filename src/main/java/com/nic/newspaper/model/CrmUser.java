@@ -10,8 +10,6 @@ public class CrmUser {
 	private String email;
 	
 	private String password;
-	
-	private String matchingPassword;
 
 
 	public CrmUser() {
@@ -26,13 +24,6 @@ public class CrmUser {
 		this.password = password;
 	}
 
-	public String getMatchingPassword() {
-		return matchingPassword;
-	}
-
-	public void setMatchingPassword(String matchingPassword) {
-		this.matchingPassword = matchingPassword;
-	}
 
 	public String getFirstName() {
 		return firstName;

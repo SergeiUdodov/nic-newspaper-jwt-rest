@@ -80,9 +80,9 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
 				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-				.authorizeHttpRequests().requestMatchers("/authenticate", "/register").permitAll()
-				.requestMatchers("/api/addArticle", "/api/deleteArticle/**").hasRole("ADMIN").anyRequest()
-				.authenticated();
+				.authorizeHttpRequests().requestMatchers("/authenticate", "/register", "/api/articles").permitAll()
+				.requestMatchers("/api/addArticle", "/api/deleteArticle/**", "/api/updateArticle/**").hasRole("ADMIN")
+				.anyRequest().authenticated();
 
 		http.authenticationProvider(authenticationProvider());
 

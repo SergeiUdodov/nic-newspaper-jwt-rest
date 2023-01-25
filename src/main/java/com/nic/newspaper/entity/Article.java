@@ -33,6 +33,9 @@ public class Article {
 	@Column(name = "date")
 	private String date;
 	
+	@Column(name = "imageURL")
+	private String imageURL;
+	
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "articles_comments_users", 
 	joinColumns = @JoinColumn(name = "article_id"), 
@@ -79,6 +82,14 @@ public class Article {
 
 	public void setDate(String date) {
 		this.date = date;
+	}
+
+	public String getImageURL() {
+		return imageURL;
+	}
+
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
 	}
 
 	public List<Comment> getComments() {

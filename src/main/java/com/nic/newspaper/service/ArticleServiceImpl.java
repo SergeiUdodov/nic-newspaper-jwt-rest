@@ -18,6 +18,7 @@ public class ArticleServiceImpl implements ArticleService {
 	public ArticleDao articleDao;
 
 	@Override
+	@Transactional
 	public List<Article> findAll() {
 
 		return articleDao.findAll();
@@ -31,6 +32,7 @@ public class ArticleServiceImpl implements ArticleService {
 		newArticle.setHeader(theArticle.getHeader());
 		newArticle.setContent(theArticle.getContent());
 		newArticle.setDate(theArticle.getDate());
+		newArticle.setImageURL(theArticle.getImageURL());
 
 		return articleDao.save(newArticle);
 	}
@@ -48,6 +50,20 @@ public class ArticleServiceImpl implements ArticleService {
 
 		articleDao.deleteArticleById(articleId);
 
+	}
+
+	@Override
+	@Transactional
+	public Article update(int articleId, CrmArticle theArticle) {
+
+		Article newArticle = new Article();
+		newArticle.setId((long) articleId);
+		newArticle.setHeader(theArticle.getHeader());
+		newArticle.setContent(theArticle.getContent());
+		newArticle.setDate(theArticle.getDate());
+		newArticle.setImageURL(theArticle.getImageURL());
+
+		return articleDao.update(newArticle);
 	}
 
 }

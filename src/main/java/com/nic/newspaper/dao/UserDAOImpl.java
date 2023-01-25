@@ -42,7 +42,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public User findById(int theId) {
+	public User findById(long theId) {
 
 		// get the current hibernate session
 		Session currentSession = entityManager.unwrap(Session.class);
