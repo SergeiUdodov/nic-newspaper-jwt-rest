@@ -11,8 +11,10 @@ public interface ArticleService {
 
 	public Article save(CrmArticle theArticle);
 
-	public Article findArticleById(int articleId);
+	public Article findArticleById(long articleId);
 
-	public void deleteArticleById(int articleId);
+	public void deleteArticleById(long articleId);
+
+	public Article update(long articleId, CrmArticle theArticle);
 
 }

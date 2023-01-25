@@ -1,30 +1,36 @@
 package com.nic.newspaper.entity;
 
-import java.util.List;
-
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "comment")
 public class Comment {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	
+
 	@Column(name = "text")
 	private String text;
-	
+
 	@Column(name = "date")
 	private String date;
-	
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinTable(name = "articles_comments_users", 
-	joinColumns = @JoinColumn(name = "comment_id"), 
-	inverseJoinColumns = @JoinColumn(name = "user_id"))
+
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "users_comments", joinColumns = @JoinColumn(name = "comment_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private User user;
-	
+
 	public Comment() {
 		super();
 	}
@@ -58,7 +64,7 @@ public class Comment {
 	public void setDate(String date) {
 		this.date = date;
 	}
-	
+
 	public User getUser() {
 		return user;
 	}
@@ -71,5 +77,5 @@ public class Comment {
 	public String toString() {
 		return "Comment [id=" + id + ", text=" + text + ", date=" + date + "]";
 	}
-	
+
 }

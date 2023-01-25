@@ -42,7 +42,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public User findById(int theId) {
+	public User findById(long theId) {
 
 		// get the current hibernate session
 		Session currentSession = entityManager.unwrap(Session.class);
@@ -55,13 +55,13 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public User findByUserName(String theUserName) {
+	public User findByUserEmail(String userEmail) {
 		// get the current hibernate session
 		Session currentSession = entityManager.unwrap(Session.class);
 
 		// now retrieve/read from database using username
-		Query<User> theQuery = currentSession.createQuery("from User where firstName=:uName", User.class);
-		theQuery.setParameter("uName", theUserName);
+		Query<User> theQuery = currentSession.createQuery("from User where email=:uEmail", User.class);
+		theQuery.setParameter("uEmail", userEmail);
 		User theUser = null;
 		try {
 			theUser = theQuery.getSingleResult();

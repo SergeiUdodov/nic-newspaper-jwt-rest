@@ -7,19 +7,19 @@ DROP TABLE IF EXISTS `user`;
 
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(50) NOT NULL UNIQUE,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
-  `email` varchar(50) NOT NULL,
   `password` char(80) NOT NULL,
   PRIMARY KEY (`id`)
   
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-INSERT INTO `user` (first_name,last_name,email,password) /* default password : fun123 */
+INSERT INTO `user` (email,first_name,last_name,password) /* default password : fun123 */
 VALUES 
-('John','Doe','john@luv2code.com', '$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K'),
-('Mary','Public','mary@luv2code.com', '$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K'),
-('Susan','Adams','susan@luv2code.com', '$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K');
+('john@luv2code.com','John', 'Doe', '$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K'),
+('mary@luv2code.com','Mary', 'Public', '$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K'),
+('susan@luv2code.com','Susan', 'Adams', '$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K');
 
 
 DROP TABLE IF EXISTS `role`;
@@ -50,7 +50,7 @@ CREATE TABLE `users_roles` (
   REFERENCES `user` (`id`) 
   ON DELETE NO ACTION ON UPDATE NO ACTION,
   
-  CONSTRAINT `FK_ROLE` FOREIGN KEY (`role_id`) 
+  CONSTRAINT `FK_ROLE_01` FOREIGN KEY (`role_id`) 
   REFERENCES `role` (`id`) 
   ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -73,7 +73,7 @@ CREATE TABLE `comment` (
   `date` datetime NOT NULL,
   PRIMARY KEY (`id`)
   
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 INSERT INTO `comment` (text, date)
 VALUES 
@@ -99,6 +99,51 @@ VALUES
 ('Niceeee', current_time());
 
 
+DROP TABLE IF EXISTS `users_comments`;
+
+CREATE TABLE `users_comments` (
+  `user_id` int(11) NOT NULL,
+  `comment_id` int(11) NOT NULL,
+  
+  PRIMARY KEY (`user_id`,`comment_id`),
+  
+  KEY `FK_COMMENT_idx` (`comment_id`),
+  
+  CONSTRAINT `FK_USER_02` FOREIGN KEY (`user_id`) 
+  REFERENCES `user` (`id`) 
+  ON DELETE NO ACTION ON UPDATE NO ACTION,
+  
+  CONSTRAINT `FK_COMMENT_01` FOREIGN KEY (`comment_id`) 
+  REFERENCES `comment` (`id`) 
+  ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+INSERT INTO `users_comments` (user_id,comment_id)
+VALUES 
+(1, 1),
+(2, 2),
+(3, 3),
+(1, 4),
+(2, 5),
+(3, 6),
+(1, 7),
+(2, 8),
+(3, 9),
+(2, 10),
+(1, 11),
+(3, 12),
+(1, 13),
+(3, 14),
+(2, 15),
+(1, 16),
+(3, 17),
+(1, 18),
+(3, 19),
+(2, 20);
+
+
 DROP TABLE IF EXISTS `article`;
 
 CREATE TABLE `article` (
@@ -108,7 +153,7 @@ CREATE TABLE `article` (
   `date` datetime NOT NULL,
   `imageURL` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 INSERT INTO `article` (header,content,date,imageURL)
 VALUES 
@@ -167,53 +212,47 @@ current_time(),
 'https://eturbonews.com/wp-content/uploads/2022/05/0-17-e1651679199420.jpg');
 
 
-DROP TABLE IF EXISTS `articles_comments_users`;
+DROP TABLE IF EXISTS `articles_comments`;
 
-CREATE TABLE `articles_comments_users` (
+CREATE TABLE `articles_comments` (
   `article_id` int(11) NOT NULL,
   `comment_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
   
-  PRIMARY KEY (`article_id`, `comment_id`, `user_id`),
+  PRIMARY KEY (`article_id`,`comment_id`),
   
-  KEY `FK_ARTICLE_idx` (`article_id`),
   KEY `FK_COMMENT_idx` (`comment_id`),
   
-  CONSTRAINT `FK_ARTICLE` FOREIGN KEY (`article_id`) 
+  CONSTRAINT `FK_ARTICLE_01` FOREIGN KEY (`article_id`) 
   REFERENCES `article` (`id`) 
   ON DELETE NO ACTION ON UPDATE NO ACTION,
   
-  CONSTRAINT `FK_COMMENT` FOREIGN KEY (`comment_id`) 
+  CONSTRAINT `FK_COMMENT_02` FOREIGN KEY (`comment_id`) 
   REFERENCES `comment` (`id`) 
-  ON DELETE NO ACTION ON UPDATE NO ACTION,
-  
-  CONSTRAINT `FK_USER_02` FOREIGN KEY (`user_id`) 
-  REFERENCES `user` (`id`) 
-  ON DELETE NO ACTION ON UPDATE NO ACTION
-
+  ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
-INSERT INTO `articles_comments_users` (article_id, comment_id, user_id)
+INSERT INTO `articles_comments` (article_id,comment_id)
 VALUES 
-(1, 1, 1),
-(1, 2, 2),
-(1, 3, 3),
-(1, 4, 1),
-(2, 5, 3),
-(2, 6, 2),
-(2, 7, 1),
-(2, 8, 2),
-(3, 9, 2),
-(3, 10, 1),
-(3, 11, 2),
-(3, 12, 3),
-(4, 13, 1),
-(4, 14, 2),
-(4, 15, 1),
-(4, 16, 3),
-(5, 17, 2),
-(5, 18, 3),
-(5, 19, 2),
-(5, 20, 1);
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(2, 5),
+(2, 6),
+(2, 7),
+(2, 8),
+(3, 9),
+(3, 10),
+(3, 11),
+(3, 12),
+(4, 13),
+(4, 14),
+(4, 15),
+(4, 16),
+(5, 17),
+(5, 18),
+(5, 19),
+(5, 20);
+

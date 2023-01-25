@@ -10,8 +10,10 @@ public interface ArticleDao {
 
 	public Article save(Article theArticle);
 
-	public Article findArticleById(int articleId);
+	public Article findArticleById(long articleId);
 
-	public void deleteArticleById(int articleId);
+	public void deleteArticleById(long articleId);
+
+	Article update(Article theArticle);
 
 }

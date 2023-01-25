@@ -9,9 +9,9 @@ public interface UserDAO {
 
 	public List<User> findAll();
 
-	public User findById(int theId);
+	public User findById(long theId);
 
-	public User findByUserName(String theUserName);
+	public User findByUserEmail(String userEmail);
 
 	public User save(User theUser);
 

@@ -6,10 +6,10 @@ public class CrmArticle {
 
 	private String content;
 
-	private String date;
+	private String imageURL;
 
 	public CrmArticle() {
-		super();
+
 	}
 
 	public String getHeader() {
@@ -28,12 +28,12 @@ public class CrmArticle {
 		this.content = content;
 	}
 
-	public String getDate() {
-		return date;
+	public String getImageURL() {
+		return imageURL;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
 	}
 
 }

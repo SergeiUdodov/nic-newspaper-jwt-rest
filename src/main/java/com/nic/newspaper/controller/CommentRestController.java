@@ -1,21 +1,21 @@
 package com.nic.newspaper.controller;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nic.newspaper.config.JwtTokenUtil;
-import com.nic.newspaper.entity.Role;
-import com.nic.newspaper.entity.User;
-import com.nic.newspaper.service.UserService;
+import com.nic.newspaper.entity.Article;
+import com.nic.newspaper.entity.Comment;
+import com.nic.newspaper.model.CrmComment;
+import com.nic.newspaper.service.CommentService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,35 +23,19 @@ import jakarta.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin("http://localhost:8081/")
-public class UserRestController {
-
-	protected final Log logger = LogFactory.getLog(getClass());
+public class CommentRestController {
 
 	@Autowired
-	private UserService userService;
+	private CommentService commentService;
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 
-	@GetMapping("/users")
-	public List<User> findAll() {
-		return userService.findAll();
-	}
+	protected final Log logger = LogFactory.getLog(getClass());
 
-	@GetMapping("/users/{UserId}")
-	public User getUser(@PathVariable int UserId) {
-
-		User theUser = userService.findById(UserId);
-
-		if (theUser == null) {
-			throw new RuntimeException("User id not found - " + UserId);
-		}
-
-		return theUser;
-	}
-
-	@GetMapping("/userByToken")
-	public User getUserByToken(HttpServletRequest request) {
+	@PostMapping("/addComment/{articleId}")
+	public Article addComment(@PathVariable long articleId, @RequestBody CrmComment theComment,
+			HttpServletRequest request) {
 
 		final String requestTokenHeader = request.getHeader("Authorization");
 
@@ -71,19 +55,25 @@ public class UserRestController {
 			logger.warn("JWT Token is null or does not begin with Bearer String");
 		}
 
-		return userService.getUserByToken(userEmail);
+		return commentService.save(theComment, userEmail, articleId);
+
 	}
 
-	@GetMapping("/isUserAdmin")
-	public boolean isUserAdmin(HttpServletRequest request) {
-		boolean isAdmin = false;
-		Collection<Role> userRoles = getUserByToken(request).getRoles();
-		for (Role role : userRoles) {
-			if ("ROLE_ADMIN".equals(role.getName())) {
-				isAdmin = true;
-			}
+	@DeleteMapping("/deleteComment/{commentId}")
+	public String deleteComment(@PathVariable long commentId) {
+
+		Comment tempComment = commentService.findCommentById(commentId);
+
+		// throw exception if null
+
+		if (tempComment == null) {
+			throw new RuntimeException("Comment id not found - " + commentId);
 		}
-		return isAdmin;
+
+		commentService.deleteCommentById(commentId);
+
+		return "Deleted Comment id - " + commentId;
+
 	}
 
 }

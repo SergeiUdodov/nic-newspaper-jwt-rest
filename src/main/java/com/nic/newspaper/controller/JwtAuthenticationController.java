@@ -8,9 +8,8 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nic.newspaper.config.JwtTokenUtil;
@@ -32,26 +31,26 @@ public class JwtAuthenticationController {
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
 
-	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+	@PostMapping("/authenticate")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
-		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+		authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
 
-		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
 
 		return ResponseEntity.ok(new JwtResponse(token));
 	}
 
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@PostMapping("/register")
 	public ResponseEntity<?> saveUser(@RequestBody CrmUser user) throws Exception {
 		return ResponseEntity.ok(userDetailsService.save(user));
 	}
 
-	private void authenticate(String username, String password) throws Exception {
+	private void authenticate(String userEmail, String password) throws Exception {
 		try {
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userEmail, password));
 		} catch (DisabledException e) {
 			throw new Exception("USER_DISABLED", e);
 		} catch (BadCredentialsException e) {

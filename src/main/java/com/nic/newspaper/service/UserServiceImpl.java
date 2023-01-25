@@ -12,13 +12,9 @@ import com.nic.newspaper.entity.User;
 @Service
 public class UserServiceImpl implements UserService {
 
-	private UserDAO userDAO;
-	
 	@Autowired
-	public UserServiceImpl(UserDAO theUserDAO) {
-		userDAO = theUserDAO;
-	}
-	
+	private UserDAO userDAO;
+
 	@Override
 	@Transactional
 	public List<User> findAll() {
@@ -32,21 +28,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	@Transactional
-	public void save(User theUser) {
-		userDAO.save(theUser);
-	}
+	public User getUserByToken(String userEmail) {
 
-	@Override
-	@Transactional
-	public void deleteById(int theId) {
-		userDAO.deleteById(theId);
+		return userDAO.findByUserEmail(userEmail);
 	}
 
 }
-
-
-
-
-
-
