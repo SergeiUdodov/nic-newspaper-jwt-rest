@@ -256,3 +256,34 @@ VALUES
 (5, 19),
 (5, 20);
 
+
+DROP TABLE IF EXISTS `articles_likes`;
+
+CREATE TABLE `articles_likes` (
+  `article_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  
+  PRIMARY KEY (`article_id`,`user_id`),
+  
+  KEY `FK_ARTICLE_idx` (`article_id`),
+  
+  CONSTRAINT `FK_ARTICLE_02` FOREIGN KEY (`article_id`) 
+  REFERENCES `article` (`id`) 
+  ON DELETE CASCADE ON UPDATE CASCADE,
+  
+  CONSTRAINT `FK_USER_03` FOREIGN KEY (`user_id`) 
+  REFERENCES `user` (`id`) 
+  ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+INSERT INTO `articles_likes` (article_id, user_id)
+VALUES 
+(1, 1),
+(1, 2),
+(2, 2),
+(2, 3),
+(3, 3),
+(3, 1),
+(5, 3);

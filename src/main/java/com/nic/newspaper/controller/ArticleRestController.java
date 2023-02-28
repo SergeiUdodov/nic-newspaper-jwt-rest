@@ -19,6 +19,8 @@ import com.nic.newspaper.model.CrmArticle;
 import com.nic.newspaper.service.ArticleService;
 import com.nic.newspaper.service.CommentService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/api")
 @CrossOrigin("http://localhost:8081/")
@@ -80,4 +82,9 @@ public class ArticleRestController {
 		return articleService.update(articleId, theArticle);
 	}
 
+	@PostMapping("/likeArticle/{articleId}")
+	public Article likeArticle(@PathVariable long articleId, HttpServletRequest request) {
+
+		return articleService.likeArticle(articleId, request);
+	}
 }

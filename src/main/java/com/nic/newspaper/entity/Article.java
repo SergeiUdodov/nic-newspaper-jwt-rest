@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -38,6 +39,10 @@ public class Article {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "articles_comments", joinColumns = @JoinColumn(name = "article_id"), inverseJoinColumns = @JoinColumn(name = "comment_id"))
 	private List<Comment> comments;
+
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "articles_likes", joinColumns = @JoinColumn(name = "article_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+	private List<User> likes;
 
 	public Article() {
 
@@ -95,6 +100,14 @@ public class Article {
 
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
+	}
+
+	public List<User> getLikes() {
+		return likes;
+	}
+
+	public void setLikes(List<User> likes) {
+		this.likes = likes;
 	}
 
 	@Override

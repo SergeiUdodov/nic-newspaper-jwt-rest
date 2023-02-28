@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.nic.newspaper.dao.ArticleDao;
 import com.nic.newspaper.entity.Article;
+import com.nic.newspaper.entity.User;
 import com.nic.newspaper.model.CrmArticle;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -18,6 +20,9 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Autowired
 	public ArticleDao articleDao;
+
+	@Autowired
+	private UserService userService;
 
 	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -80,6 +85,31 @@ public class ArticleServiceImpl implements ArticleService {
 		newArticle.setImageURL(theArticle.getImageURL());
 
 		return articleDao.update(newArticle);
+	}
+
+	@Override
+	@Transactional
+	public Article likeArticle(long articleId, HttpServletRequest request) {
+
+		User currentUser = userService.getUserByToken(request);
+
+		Article theArticle = articleDao.findArticleById(articleId);
+
+		if (theArticle == null) {
+			throw new RuntimeException("Article id not found - " + articleId);
+		}
+
+		List<User> likes = theArticle.getLikes();
+
+		if (likes.contains(currentUser)) {
+			likes.remove(currentUser);
+		} else {
+			likes.add(currentUser);
+		}
+
+		theArticle.setLikes(likes);
+
+		return articleDao.update(theArticle);
 	}
 
 }
