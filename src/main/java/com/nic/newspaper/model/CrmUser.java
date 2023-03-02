@@ -10,6 +10,10 @@ public class CrmUser {
 
 	private String password;
 
+	private String prefer;
+
+	private String forbid;
+
 	public CrmUser() {
 
 	}
@@ -44,6 +48,22 @@ public class CrmUser {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getPrefer() {
+		return prefer;
+	}
+
+	public void setPrefer(String prefer) {
+		this.prefer = prefer;
+	}
+
+	public String getForbid() {
+		return forbid;
+	}
+
+	public void setForbid(String forbid) {
+		this.forbid = forbid;
 	}
 
 }

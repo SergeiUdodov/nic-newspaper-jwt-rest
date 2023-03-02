@@ -82,7 +82,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter {
 				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				.authorizeHttpRequests().requestMatchers("/authenticate", "/register", "/api/articles").permitAll()
 				.requestMatchers("/api/addArticle", "/api/deleteArticle/**", "/api/updateArticle/**",
-						"/api/deleteComment/**")
+						"/api/deleteComment/**", "/api/deleteTheme/**")
 				.hasRole("ADMIN").anyRequest().authenticated();
 
 		http.authenticationProvider(authenticationProvider());

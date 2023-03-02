@@ -11,7 +11,6 @@ import com.nic.newspaper.entity.Role;
 import com.nic.newspaper.entity.User;
 
 import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -72,7 +71,6 @@ public class UserDAOImpl implements UserDAO {
 		return theUser;
 	}
 
-	@Transactional
 	@Override
 	public User save(User theUser) {
 
@@ -83,6 +81,16 @@ public class UserDAOImpl implements UserDAO {
 		// currentSession.saveOrUpdate(theUser);
 
 		currentSession.persist(theUser);
+
+		return currentSession.get(User.class, theUser.getId());
+	}
+
+	@Override
+	public User updateUser(User theUser) {
+
+		Session currentSession = entityManager.unwrap(Session.class);
+
+		currentSession.saveOrUpdate(theUser);
 
 		return currentSession.get(User.class, theUser.getId());
 	}

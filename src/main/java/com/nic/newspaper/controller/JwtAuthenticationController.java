@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +18,8 @@ import com.nic.newspaper.model.CrmUser;
 import com.nic.newspaper.model.JwtRequest;
 import com.nic.newspaper.model.JwtResponse;
 import com.nic.newspaper.service.JwtUserDetailsService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @CrossOrigin
@@ -46,6 +49,11 @@ public class JwtAuthenticationController {
 	@PostMapping("/register")
 	public ResponseEntity<?> saveUser(@RequestBody CrmUser user) throws Exception {
 		return ResponseEntity.ok(userDetailsService.save(user));
+	}
+
+	@PutMapping("/updateUser")
+	public ResponseEntity<?> updateUser(@RequestBody CrmUser crmUser, HttpServletRequest request) throws Exception {
+		return ResponseEntity.ok(userDetailsService.updateUser(crmUser, request));
 	}
 
 	private void authenticate(String userEmail, String password) throws Exception {

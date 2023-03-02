@@ -44,6 +44,10 @@ public class Article {
 	@JoinTable(name = "articles_likes", joinColumns = @JoinColumn(name = "article_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private List<User> likes;
 
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinTable(name = "articles_themes", joinColumns = @JoinColumn(name = "article_id"), inverseJoinColumns = @JoinColumn(name = "theme_id"))
+	private List<Theme> themes;
+
 	public Article() {
 
 	}
@@ -110,9 +114,34 @@ public class Article {
 		this.likes = likes;
 	}
 
+	public List<Theme> getThemes() {
+		return themes;
+	}
+
+	public void setThemes(List<Theme> themes) {
+		this.themes = themes;
+	}
+
 	@Override
 	public String toString() {
 		return "Article [id=" + id + ", header=" + header + ", content=" + content + ", date=" + date + "]";
 	}
+
+//	@Override
+//	public int hashCode() {
+//		return Objects.hash(header, id);
+//	}
+//
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		Article other = (Article) obj;
+//		return header.equals(other.header) && id.equals(other.id);
+//	}
 
 }

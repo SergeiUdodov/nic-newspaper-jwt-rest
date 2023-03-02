@@ -33,9 +33,9 @@ public class ArticleRestController {
 	private CommentService commentService;
 
 	@GetMapping("/articles")
-	public List<Article> findAll() {
+	public List<Article> findAll(HttpServletRequest request) {
 
-		return articleService.findAll();
+		return articleService.findAll(request);
 	}
 
 	@GetMapping("/articles/{articleId}")

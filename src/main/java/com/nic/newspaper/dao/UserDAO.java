@@ -17,6 +17,8 @@ public interface UserDAO {
 
 	public void deleteById(int theId);
 
-	Role findRoleByName(String theRoleName);
+	public Role findRoleByName(String theRoleName);
+
+	public User updateUser(User theUser);
 
 }

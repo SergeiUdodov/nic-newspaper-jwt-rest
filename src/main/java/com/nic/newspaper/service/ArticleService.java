@@ -9,7 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public interface ArticleService {
 
-	public List<Article> findAll();
+	public List<Article> findAll(HttpServletRequest request);
 
 	public Article save(CrmArticle theArticle);
 

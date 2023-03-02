@@ -8,6 +8,8 @@ public class CrmArticle {
 
 	private String imageURL;
 
+	private String themes;
+
 	public CrmArticle() {
 
 	}
@@ -34,6 +36,14 @@ public class CrmArticle {
 
 	public void setImageURL(String imageURL) {
 		this.imageURL = imageURL;
+	}
+
+	public String getThemes() {
+		return themes;
+	}
+
+	public void setThemes(String themes) {
+		this.themes = themes;
 	}
 
 }

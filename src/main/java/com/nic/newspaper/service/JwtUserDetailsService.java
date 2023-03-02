@@ -1,6 +1,8 @@
 package com.nic.newspaper.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -13,12 +15,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.nic.newspaper.dao.UserDAO;
+import com.nic.newspaper.entity.Theme;
 import com.nic.newspaper.model.CrmUser;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 
 	Log logger = LogFactory.getLog(getClass());
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private ThemeService themeService;
 
 	@Autowired
 	private UserDAO userDao;
@@ -41,6 +53,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 
 	}
 
+	@Transactional
 	public com.nic.newspaper.entity.User save(CrmUser user) {
 		com.nic.newspaper.entity.User newUser = new com.nic.newspaper.entity.User();
 		newUser.setEmail(user.getEmail());
@@ -50,5 +63,40 @@ public class JwtUserDetailsService implements UserDetailsService {
 		newUser.setRoles(Arrays.asList(userDao.findRoleByName("ROLE_USER")));
 		return userDao.save(newUser);
 
+	}
+
+	@Transactional
+	public com.nic.newspaper.entity.User updateUser(CrmUser crmUser, HttpServletRequest request) {
+
+		com.nic.newspaper.entity.User theUser = userService.getUserByToken(request);
+
+		String[] preferThemesNames = crmUser.getPrefer().toLowerCase().split("[^a-zа-я0-9]+");
+		String[] forbidThemesNames = crmUser.getForbid().toLowerCase().split("[^a-zа-я0-9]+");
+
+		List<Theme> prefer = new ArrayList<>();
+		List<Theme> forbid = new ArrayList<>();
+
+		Theme temp = null;
+		for (String themeName : preferThemesNames) {
+			if (!"".equals(themeName)) {
+				temp = themeService.findThemeByName(themeName);
+				prefer.add(temp);
+			}
+		}
+
+		temp = null;
+		for (String themeName : forbidThemesNames) {
+			if (!"".equals(themeName)) {
+				temp = themeService.findThemeByName(themeName);
+				forbid.add(temp);
+			}
+		}
+
+		temp = null;
+
+		theUser.setPrefer(prefer);
+		theUser.setForbid(forbid);
+
+		return userDao.updateUser(theUser);
 	}
 }
