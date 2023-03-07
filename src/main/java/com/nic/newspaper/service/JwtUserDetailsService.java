@@ -83,19 +83,25 @@ public class JwtUserDetailsService implements UserDetailsService {
 				prefer.add(temp);
 			}
 		}
-
 		temp = null;
+		
 		for (String themeName : forbidThemesNames) {
 			if (!"".equals(themeName)) {
 				temp = themeService.findThemeByName(themeName);
 				forbid.add(temp);
 			}
 		}
-
 		temp = null;
 
 		theUser.setPrefer(prefer);
 		theUser.setForbid(forbid);
+		
+		theUser.setEmail(crmUser.getEmail());
+		theUser.setFirstName(crmUser.getFirstName());
+		theUser.setLastName(crmUser.getLastName());
+		if(!"".equals(crmUser.getPassword())) {
+			theUser.setPassword(bcryptEncoder.encode(crmUser.getPassword()));
+		}
 
 		return userDao.updateUser(theUser);
 	}
