@@ -28,7 +28,7 @@ public class CommentServiceImpl implements CommentService {
 	@Autowired
 	private CommentDao commentDao;
 
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
 	@Override
 	@Transactional

@@ -16,7 +16,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "article")
+@Table(name = "article", schema = "public")
 public class Article {
 
 	@Id

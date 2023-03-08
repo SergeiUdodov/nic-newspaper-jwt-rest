@@ -1,5 +1,6 @@
 package com.nic.newspaper.service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +37,7 @@ public class ArticleServiceImpl implements ArticleService {
 	@Autowired
 	private ThemeService themeService;
 
-	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
 	@Override
 	@Transactional
@@ -44,7 +45,16 @@ public class ArticleServiceImpl implements ArticleService {
 
 		List<Article> articles = articleDao.findAll();
 
-		Comparator<Article> byDate = (first, second) -> second.getDate().compareToIgnoreCase(first.getDate());
+//		Comparator<Article> byDate = (first, second) -> second.getDate().compareToIgnoreCase(first.getDate());
+		Comparator<Article> byDate = (first, second) -> {
+			try {
+				return formatter.parse(second.getDate()).compareTo(formatter.parse(first.getDate()));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return 0;
+		};
 
 		articles.sort(byDate);
 
@@ -62,26 +72,27 @@ public class ArticleServiceImpl implements ArticleService {
 			}
 
 			articles.removeAll(articlesForRemove);
-			
+
 			List<Theme> preferedArticles = currentUser.getPrefer();
-			
-			class Intersection{
+
+			class Intersection {
 				private static int compute(Article article, List<Theme> list) {
 					int result = 0;
-					for(Theme theme : list) {
-						if(article.getThemes().contains(theme)) {
-							result ++;
+					for (Theme theme : list) {
+						if (article.getThemes().contains(theme)) {
+							result++;
 						}
 					}
 					return result;
 				}
 			}
-			Comparator<Article> byPreferThemes = (first, second) -> Intersection.compute(second, preferedArticles) - Intersection.compute(first, preferedArticles);
+			Comparator<Article> byPreferThemes = (first, second) -> Intersection.compute(second, preferedArticles)
+					- Intersection.compute(first, preferedArticles);
 			articles.sort(byPreferThemes);
 		}
 
 		return articles;
-		
+
 	}
 
 	@Override

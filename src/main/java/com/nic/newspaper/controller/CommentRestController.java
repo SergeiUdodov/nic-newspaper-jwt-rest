@@ -1,5 +1,7 @@
 package com.nic.newspaper.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class CommentRestController {
 
 	@Autowired
 	private CommentService commentService;
-	
+
 	@Autowired
 	ArticleService articleService;
 
@@ -40,6 +42,8 @@ public class CommentRestController {
 	private JwtTokenUtil jwtTokenUtil;
 
 	protected final Log logger = LogFactory.getLog(getClass());
+
+	SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
 	@PostMapping("/addComment/{articleId}")
 	public Article addComment(@PathVariable long articleId, @RequestBody CrmComment theComment,
@@ -83,16 +87,25 @@ public class CommentRestController {
 		return "Deleted Comment id - " + commentId;
 
 	}
-	
+
 	@GetMapping("/comments/{aritcleId}")
 	public List<Comment> comments(@PathVariable long aritcleId) {
-		
+
 		List<Comment> comments = articleService.findArticleById(aritcleId).getComments();
-		
-		Comparator<Comment> byDate = (first, second) -> second.getDate().compareToIgnoreCase(first.getDate());
-		
+
+//		Comparator<Comment> byDate = (first, second) -> second.getDate().compareToIgnoreCase(first.getDate());
+		Comparator<Comment> byDate = (first, second) -> {
+			try {
+				return formatter.parse(second.getDate()).compareTo(formatter.parse(first.getDate()));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return 0;
+		};
+
 		comments.sort(byDate);
-		
+
 		return comments;
 	}
 
