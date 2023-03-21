@@ -15,7 +15,8 @@ import com.nic.newspaper.service.ThemeService;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin("http://localhost:8081/")
+//@CrossOrigin("http://localhost:8081/")
+@CrossOrigin
 public class ThemeRestController {
 
 	@Autowired

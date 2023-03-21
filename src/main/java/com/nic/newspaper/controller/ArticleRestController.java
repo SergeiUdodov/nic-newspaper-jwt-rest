@@ -23,7 +23,8 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin("http://localhost:8081/")
+//@CrossOrigin("http://localhost:8081/")
+@CrossOrigin
 public class ArticleRestController {
 
 	@Autowired

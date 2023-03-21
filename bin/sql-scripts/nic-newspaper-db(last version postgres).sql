@@ -361,7 +361,8 @@ VALUES
 (1, 5),
 (2, 3),
 (2, 5),
-(3, 1);
+(3, 1),
+(3, 2);
 
 
  --DROP TABLE IF EXISTS "users_forbid_themes";
@@ -370,8 +371,6 @@ CREATE TABLE "users_forbid_themes" (
   "user_id" BIGSERIAL NOT NULL,
   "forbid_theme_id" BIGSERIAL NOT NULL,
   
-  PRIMARY KEY ("user_id","forbid_theme_id"),
-	
     --KEY "FK_ROLE_idx" ("user_id"),
   
   CONSTRAINT "FK_USER_05" FOREIGN   KEY ("user_id") 
@@ -389,5 +388,4 @@ INSERT INTO "users_forbid_themes" (user_id, forbid_theme_id)
 VALUES 
 (1, 1),
 (2, 2),
-(3, 4),
-(3, 2);
+(3, 4);
