@@ -29,16 +29,6 @@ public class ThemeDaoImpl implements ThemeDao {
 		return themes;
 	}
 
-//	@Override
-//	public Theme findThemeById(long themeId) {
-//
-//		Session currentSession = entityManager.unwrap(Session.class);
-//
-//		Theme theTheme = currentSession.get(Theme.class, themeId);
-//
-//		return theTheme;
-//	}
-
 	@Override
 	public Theme save(Theme theTheme) {
 
@@ -49,27 +39,6 @@ public class ThemeDaoImpl implements ThemeDao {
 		return currentSession.get(Theme.class, theTheme.getId());
 
 	}
-
-//	@Override
-//	public List<Theme> findThemesByNames(String[] names) {
-//
-//		List<Theme> result = new ArrayList<>();
-//
-//		for (String name : names) {
-//			Session currentSession = entityManager.unwrap(Session.class);
-//			Query<Theme> theQuery = currentSession.createQuery("from Theme where name=:tName", Theme.class);
-//			theQuery.setParameter("tName", name);
-//			Theme theme = null;
-//			try {
-//				theme = theQuery.getSingleResult();
-//				result.add(theme);
-//			} catch (Exception e) {
-//				theme = null;
-//			}
-//		}
-//
-//		return result;
-//	}
 
 	@Override
 	public Theme findThemeByName(String name) {

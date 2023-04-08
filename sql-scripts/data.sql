@@ -71,16 +71,16 @@ CREATE TABLE "comment" (
 
 INSERT INTO "comment" (text, date)
 VALUES 
-('Interesting article;)', '18.10.2022 17:45:33'),
-('God bless America', '18.10.2022 17:46:33'),
-('I always was crazy about space and such kind of thigs', '18.10.2022 17:47:33'),
-('Wanna rewatch Interstellar...', '18.10.2022 17:48:33'),
-('Me first!!!...', '18.10.2022 17:49:33'),
-('I love all kind of pizza, especially a big one!', '18.10.2022 17:50:33'),
-('I don''t recommend anyone even try that... think about it, you''ll be fat and unhealthy((', '18.10.2022 17:51:33'),
-('What am i do here?', '18.10.2022 17:45:33'),
-('the value of the web is embodied in the data available on it', '18.10.2022 17:52:33'),
-('In this new world of you better looking after your own data', '18.10.2022 17:53:33'),
+('SpaceX has won a contract to launch the joint US-European Sentinel 6B radar satellite', '18.10.2022 17:45:33'),
+('Five years ago, NASA also chose SpaceX to launch Sentinel 6A', '18.10.2022 17:46:33'),
+('Five years and two months later, NASA has awarded SpaceX $97 million', '18.10.2022 17:47:33'),
+('NASA''s Launch Services Program (@NASA_LSP) December 20, 2022', '18.10.2022 17:48:33'),
+('The largest circular pizza ever baked weighed was made in Norwood', '18.10.2022 17:49:33'),
+('It weighed 26,883 pounds', '18.10.2022 17:50:33'),
+('Contained 9,920 pounds of flour', '18.10.2022 17:51:33'),
+('And 3,960 pounds of cheese', '18.10.2022 17:45:33'),
+('The internet has come a long way since Tim Berners-Lee invented the world wide web in 1989', '18.10.2022 17:52:33'),
+('It’s time for us to reclaim our personal data', '18.10.2022 17:53:33'),
 ('Just install Kaspersky and relax', '18.10.2022 17:54:33'),
 ('Let''s go CS GO!', '18.10.2022 17:55:33'),
 ('Very helpful article, thx!', '18.10.2022 17:56:33'),
@@ -159,7 +159,7 @@ Five years and two months later, NASA has awarded SpaceX $97 million to launch a
 -- '2023-03-07 10:40:46',
 'https://www.teslarati.com/wp-content/uploads/2020/11/Sentinel-6A-Falcon-9-B1063-SLC-4E-112120-SpaceX-launch-landing-2-c-2048x1127.jpg'),
 
-('The World\s Largest Pizza Ever Weighed 26,883 lbs',
+('The World''s Largest Pizza Ever Weighed 26,883 lbs',
 'According the keepers of human history over at the Guinness World Records, the largest circular pizza ever baked weighed was made in Norwood, South Africa by Norwood Hypermarket on December 8, 1990. It weighed 26,883 pounds.
 The data is a bit sketchy, but here are relevant numbers: The pizza measured 122 feet, 8 inches in diameter, weighed 26,883 pounds, and contained 9,920 pounds of flour, 3,960 pounds of cheese, 1 763 pounds of mushrooms, 1,984 pounds of tomato puree, and 1,984 pounds of chopped tomatoes.',
 '18.10.2022 17:48:44',
@@ -175,7 +175,7 @@ Not only is user data safe from corporations, and governments, it’s also less 
 “I think we’ve all come to realize that the value of the web is embodied in the data available on it,” he adds. “In this new world of you looking after your own data, it doesn’t live in big silos that are lucrative targets for attackers.”',
 '18.10.2022 17:47:44',
 -- '2023-03-07 10:40:48',
-'https://cacm.acm.org/system/assets/0004/4507/122122_PATRICIA_DE_MELO_MOREIRA-AFP-AFP_via_Getty_Images_Berners-Lee.large.jpg?1671644525&1671644525'),
+'https://mclaskeydesigns.com/wp-content/uploads/2017/04/AdobeStock_50402441.jpeg'),
 
 ('Poor sleep can make you prickly. Here’s what to do',
 'CNN  — Holiday stress. Work problems. Money concerns. Family issues — the worries that can keep you up at night are infinite. Develop a sleep debt from those worries, and you’ll pay a price in your ability to think, plan and manage your emotions.
@@ -193,7 +193,7 @@ Without enough sleep, your brain functions less efficiently, affecting your copi
 Unfortunately, it doesn’t take long for sleep to affect our emotional stability, Dasgupta said: “Just one night of sleep loss impairs the ability to regulate emotions and the expression of them.”',
 '18.10.2022 17:46:44',
 -- '2023-03-07 10:40:49',
-'https://i.headtopics.com/images/2022/12/1/cnni/poor-sleep-can-make-you-prickly-here-s-what-to-do--poor-sleep-can-make-you-prickly-here-s-what-to-do--1598391550417010688.webp'),
+'https://trendster.ie/wp-content/uploads/2018/07/2000x2000.jpg'),
 
 ('New Zealand, Japan and Samoa set to reopen to visitors',
 '(CNN) — This week in travel news: the world''s best hotels, greatest sandwiches and most spectacular railway journeys. Also, pilot emergencies in Florida and London and the latest countries to relax their entry restrictions.

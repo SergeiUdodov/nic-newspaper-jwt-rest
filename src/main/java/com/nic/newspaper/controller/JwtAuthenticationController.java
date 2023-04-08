@@ -23,7 +23,6 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @CrossOrigin
-//@CrossOrigin("http://localhost:8081/")
 public class JwtAuthenticationController {
 
 	@Autowired

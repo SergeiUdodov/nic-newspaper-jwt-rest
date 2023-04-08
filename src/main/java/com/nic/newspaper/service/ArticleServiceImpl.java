@@ -9,8 +9,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +23,6 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
-
-	protected final Log logger = LogFactory.getLog(getClass());
 
 	@Autowired
 	public ArticleDao articleDao;
@@ -45,12 +41,11 @@ public class ArticleServiceImpl implements ArticleService {
 
 		List<Article> articles = articleDao.findAll();
 
-//		Comparator<Article> byDate = (first, second) -> second.getDate().compareToIgnoreCase(first.getDate());
 		Comparator<Article> byDate = (first, second) -> {
 			try {
 				return formatter.parse(second.getDate()).compareTo(formatter.parse(first.getDate()));
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 			}
 			return 0;

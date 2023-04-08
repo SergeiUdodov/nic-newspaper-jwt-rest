@@ -78,8 +78,6 @@ public class UserDAOImpl implements UserDAO {
 		Session currentSession = entityManager.unwrap(Session.class);
 
 		// save User
-		// currentSession.saveOrUpdate(theUser);
-
 		currentSession.persist(theUser);
 
 		return currentSession.get(User.class, theUser.getId());

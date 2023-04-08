@@ -29,7 +29,6 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api")
-//@CrossOrigin("http://localhost:8081/")
 @CrossOrigin
 public class CommentRestController {
 
@@ -77,8 +76,6 @@ public class CommentRestController {
 
 		Comment tempComment = commentService.findCommentById(commentId);
 
-		// throw exception if null
-
 		if (tempComment == null) {
 			throw new RuntimeException("Comment id not found - " + commentId);
 		}
@@ -94,12 +91,10 @@ public class CommentRestController {
 
 		List<Comment> comments = articleService.findArticleById(aritcleId).getComments();
 
-//		Comparator<Comment> byDate = (first, second) -> second.getDate().compareToIgnoreCase(first.getDate());
 		Comparator<Comment> byDate = (first, second) -> {
 			try {
 				return formatter.parse(second.getDate()).compareTo(formatter.parse(first.getDate()));
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return 0;

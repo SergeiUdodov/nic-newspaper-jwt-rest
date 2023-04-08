@@ -127,21 +127,4 @@ public class Article {
 		return "Article [id=" + id + ", header=" + header + ", content=" + content + ", date=" + date + "]";
 	}
 
-//	@Override
-//	public int hashCode() {
-//		return Objects.hash(header, id);
-//	}
-//
-//	@Override
-//	public boolean equals(Object obj) {
-//		if (this == obj)
-//			return true;
-//		if (obj == null)
-//			return false;
-//		if (getClass() != obj.getClass())
-//			return false;
-//		Article other = (Article) obj;
-//		return header.equals(other.header) && id.equals(other.id);
-//	}
-
 }

@@ -23,7 +23,6 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api")
-//@CrossOrigin("http://localhost:8081/")
 @CrossOrigin
 public class ArticleRestController {
 
@@ -56,8 +55,6 @@ public class ArticleRestController {
 	public String deleteArticle(@PathVariable long articleId) {
 
 		Article tempArticle = articleService.findArticleById(articleId);
-
-		// throw exception if null
 
 		if (tempArticle == null) {
 			throw new RuntimeException("Article id not found - " + articleId);

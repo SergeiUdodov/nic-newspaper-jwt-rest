@@ -15,7 +15,6 @@ import com.nic.newspaper.service.ThemeService;
 
 @RestController
 @RequestMapping("/api")
-//@CrossOrigin("http://localhost:8081/")
 @CrossOrigin
 public class ThemeRestController {
 
@@ -35,17 +34,5 @@ public class ThemeRestController {
 
 		return "Deleted Theme id - " + themeId;
 	}
-//	@GetMapping("/themes/{themeId}")
-//	public Theme findThemeById(@PathVariable long themeId) {
-//
-//		return themeService.findThemeById(themeId);
-//	}
-//	
-//	@PostMapping("/addThemeForArticle/{articleId}")
-//	public Article addThemeForArticle(@PathVariable long articleId, @RequestBody CrmTheme theTheme) {
-//
-//		return themeService.addThemeForArticle(articleId, theTheme);
-//
-//	}
 
 }

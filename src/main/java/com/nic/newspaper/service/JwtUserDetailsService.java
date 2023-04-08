@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,8 +21,6 @@ import jakarta.transaction.Transactional;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
-
-	Log logger = LogFactory.getLog(getClass());
 
 	@Autowired
 	private UserService userService;
@@ -46,8 +42,6 @@ public class JwtUserDetailsService implements UserDetailsService {
 		if (user == null) {
 			throw new UsernameNotFoundException("User not found with email: " + userEmail);
 		}
-
-		logger.warn(user.getRoles());
 
 		return new User(user.getEmail(), user.getPassword(), user.getRoles());
 
