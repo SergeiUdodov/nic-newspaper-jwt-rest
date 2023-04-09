@@ -1,8 +1,3 @@
---DROP DATABASE  IF EXISTS "nic-newspaper-bd";
-
---CREATE DATABASE "nic-newspaper-bd";
-
- --DROP TABLE IF EXISTS "user";
 
 CREATE TABLE "user" (
   "id" BIGSERIAL NOT NULL PRIMARY   KEY,
@@ -19,8 +14,6 @@ VALUES
 ('susan@luv2code.com','Susan', 'Adams', '$2a$04$eFytJDGtjbThXa80FyOOBuFdK2IwjyWefYkMpiBEFlpBwDH.5PM0K');
 
 
- --DROP TABLE IF EXISTS "role";
-
 CREATE TABLE "role" (
   "id" BIGSERIAL NOT NULL PRIMARY   KEY,
   "name" varchar(50) DEFAULT NULL
@@ -32,15 +25,11 @@ VALUES
 ('ROLE_ADMIN');
 
 
- --DROP TABLE IF EXISTS "users_roles";
-
 CREATE TABLE "users_roles" (
   "user_id" BIGSERIAL NOT NULL,
   "role_id" BIGSERIAL NOT NULL,
   
   PRIMARY   KEY ("user_id","role_id"),
-  
-    --KEY "FK_ROLE_idx" ("role_id"),
   
   CONSTRAINT "FK_USER_01" FOREIGN   KEY ("user_id") 
   REFERENCES "user" ("id") 
@@ -51,8 +40,6 @@ CREATE TABLE "users_roles" (
   ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
---SET FOREIGN_KEY_CHECKS = 1;
-
 INSERT INTO "users_roles" (user_id,role_id)
 VALUES 
 (1, 1),
@@ -60,8 +47,6 @@ VALUES
 (3, 1),
 (3, 2);
 
-
- --DROP TABLE IF EXISTS "comment";
 
 CREATE TABLE "comment" (
   "id" BIGSERIAL NOT NULL PRIMARY   KEY,
@@ -93,15 +78,11 @@ VALUES
 ('Niceeee', '18.10.2022 18:03:33');
 
 
- --DROP TABLE IF EXISTS "users_comments";
-
 CREATE TABLE "users_comments" (
   "user_id" BIGSERIAL NOT NULL,
   "comment_id" BIGSERIAL NOT NULL,
   
   PRIMARY   KEY ("user_id","comment_id"),
-  
-    --KEY "FK_COMMENT_idx" ("comment_id"),
   
   CONSTRAINT "FK_USER_02" FOREIGN   KEY ("user_id") 
   REFERENCES "user" ("id") 
@@ -112,7 +93,6 @@ CREATE TABLE "users_comments" (
   ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
---SET FOREIGN_KEY_CHECKS = 1;
 
 INSERT INTO "users_comments" (user_id,comment_id)
 VALUES 
@@ -138,8 +118,6 @@ VALUES
 (2, 20);
 
 
- --DROP TABLE IF EXISTS "article";
-
 CREATE TABLE "article" (
   "id" BIGSERIAL NOT NULL PRIMARY   KEY,
   "header" varchar(255) NOT NULL,
@@ -156,14 +134,12 @@ Five years ago, NASA also chose SpaceX to launch Sentinel 6A, the first of two i
 Five years and two months later, NASA has awarded SpaceX $97 million to launch a virtually identical satellite to the same orbit, from the same launch pad, with the same rocket. SpaceX, however, is far from the same company it was in 2017, and has effectively mastered Falcon booster and payload fairing reuse in the half-decade since.
     — NASA''s Launch Services Program (@NASA_LSP) December 20, 2022',
 '18.10.2022 17:49:44', 
--- '2023-03-07 10:40:46',
 'https://www.teslarati.com/wp-content/uploads/2020/11/Sentinel-6A-Falcon-9-B1063-SLC-4E-112120-SpaceX-launch-landing-2-c-2048x1127.jpg'),
 
 ('The World''s Largest Pizza Ever Weighed 26,883 lbs',
 'According the keepers of human history over at the Guinness World Records, the largest circular pizza ever baked weighed was made in Norwood, South Africa by Norwood Hypermarket on December 8, 1990. It weighed 26,883 pounds.
 The data is a bit sketchy, but here are relevant numbers: The pizza measured 122 feet, 8 inches in diameter, weighed 26,883 pounds, and contained 9,920 pounds of flour, 3,960 pounds of cheese, 1 763 pounds of mushrooms, 1,984 pounds of tomato puree, and 1,984 pounds of chopped tomatoes.',
 '18.10.2022 17:48:44',
--- '2023-03-07 10:40:47',
 'https://cdn.vox-cdn.com/thumbor/xVxOlMgoL3o0JxYbfevLfvN-zeM=/41x0:688x485/920x613/filters:focal(41x0:688x485):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/39116344/worlds-largest-pizza.0.jpg'),
 
 ('Inventor of the world wide web wants us to reclaim our data from tech giants',
@@ -174,7 +150,6 @@ Users can get a Pod from a handful of providers, hosted by web services such as 
 Not only is user data safe from corporations, and governments, it’s also less likely to be stolen by hackers, Bruce says.
 “I think we’ve all come to realize that the value of the web is embodied in the data available on it,” he adds. “In this new world of you looking after your own data, it doesn’t live in big silos that are lucrative targets for attackers.”',
 '18.10.2022 17:47:44',
--- '2023-03-07 10:40:48',
 'https://mclaskeydesigns.com/wp-content/uploads/2017/04/AdobeStock_50402441.jpeg'),
 
 ('Poor sleep can make you prickly. Here’s what to do',
@@ -192,7 +167,6 @@ Without enough sleep, your brain functions less efficiently, affecting your copi
 “We don’t have the bandwidth to recognize our choices, get creative or just see that we can choose not to be irritated or irritating,” she said. “Irritability is one of the   KEY signs of stress and poor sleep.”
 Unfortunately, it doesn’t take long for sleep to affect our emotional stability, Dasgupta said: “Just one night of sleep loss impairs the ability to regulate emotions and the expression of them.”',
 '18.10.2022 17:46:44',
--- '2023-03-07 10:40:49',
 'https://trendster.ie/wp-content/uploads/2018/07/2000x2000.jpg'),
 
 ('New Zealand, Japan and Samoa set to reopen to visitors',
@@ -206,19 +180,14 @@ The world''s most loved hotel for 2022 is a Costa Rican resort with more than 50
 For something even more exclusive, though, a very lucky few will be able to book a night this June at Paris'' famous Moulin Rouge, in a secret room inside the windmill itself. It will be available through Airbnb with a token one euro price tag, and would-be guests will be able to put in their booking requests from May 17.
 If your accommodation preferences lean more simple and back-to-nature, however, you can take inspiration instead from these travelers who converted their own cozy campervans.',
 '18.10.2022 17:45:44',
--- 2023-03-07 10:40:50,
 'https://eturbonews.com/wp-content/uploads/2022/05/0-17-e1651679199420.jpg');
 
-
- --DROP TABLE IF EXISTS "articles_comments";
 
 CREATE TABLE "articles_comments" (
   "article_id" BIGSERIAL NOT NULL,
   "comment_id" BIGSERIAL NOT NULL,
   
   PRIMARY   KEY ("article_id","comment_id"),
-  
-    --KEY "FK_COMMENT_idx" ("comment_id"),
   
   CONSTRAINT "FK_ARTICLE_01" FOREIGN   KEY ("article_id") 
   REFERENCES "article" ("id") 
@@ -228,8 +197,6 @@ CREATE TABLE "articles_comments" (
   REFERENCES "comment" ("id") 
   ON DELETE CASCADE ON UPDATE NO ACTION
 )  ;
-
---SET FOREIGN_KEY_CHECKS = 1;
 
 INSERT INTO "articles_comments" (article_id,comment_id)
 VALUES 
@@ -255,15 +222,11 @@ VALUES
 (5, 20);
 
 
- --DROP TABLE IF EXISTS "articles_likes";
-
 CREATE TABLE "articles_likes" (
   "article_id" BIGSERIAL NOT NULL,
   "user_id" BIGSERIAL NOT NULL,
   
   PRIMARY   KEY ("article_id","user_id"),
-  
-    --KEY "FK_ARTICLE_idx" ("article_id"),
   
   CONSTRAINT "FK_ARTICLE_02" FOREIGN   KEY ("article_id") 
   REFERENCES "article" ("id") 
@@ -273,8 +236,6 @@ CREATE TABLE "articles_likes" (
   REFERENCES "user" ("id") 
   ON DELETE CASCADE ON UPDATE NO ACTION
 )  ;
-
---SET FOREIGN_KEY_CHECKS = 1;
 
 INSERT INTO "articles_likes" (article_id, user_id)
 VALUES 
@@ -286,8 +247,6 @@ VALUES
 (3, 1),
 (5, 3);
 
-
- --DROP TABLE IF EXISTS "theme";
 
 CREATE TABLE "theme" (
   "id" BIGSERIAL NOT NULL PRIMARY   KEY,
@@ -303,15 +262,11 @@ VALUES
 ('путешествия');
 
 
- --DROP TABLE IF EXISTS "articles_themes";
-
 CREATE TABLE "articles_themes" (
   "article_id" BIGSERIAL NOT NULL,
   "theme_id" BIGSERIAL NOT NULL,
   
   PRIMARY   KEY ("article_id","theme_id"),
-  
-    --KEY "FK_ROLE_idx" ("article_id"),
   
   CONSTRAINT "FK_ARTICLE_03" FOREIGN   KEY ("article_id") 
   REFERENCES "article" ("id") 
@@ -321,8 +276,6 @@ CREATE TABLE "articles_themes" (
   REFERENCES "theme" ("id") 
   ON DELETE CASCADE ON UPDATE NO ACTION
 )  ;
-
---SET FOREIGN_KEY_CHECKS = 1;
 
 INSERT INTO "articles_themes" (article_id, theme_id)
 VALUES 
@@ -334,15 +287,11 @@ VALUES
 (5, 5);
 
 
- --DROP TABLE IF EXISTS "users_prefer_themes";
-
 CREATE TABLE "users_prefer_themes" (
   "user_id" BIGSERIAL NOT NULL,
   "prefer_theme_id" BIGSERIAL NOT NULL,
   
   PRIMARY KEY ("user_id","prefer_theme_id"),
-  
-    --KEY "FK_ROLE_idx" ("user_id"),
   
   CONSTRAINT "FK_USER_04" FOREIGN   KEY ("user_id") 
   REFERENCES "user" ("id") 
@@ -353,8 +302,6 @@ CREATE TABLE "users_prefer_themes" (
   ON DELETE CASCADE ON UPDATE NO ACTION
 )  ;
 
---SET FOREIGN_KEY_CHECKS = 1;
-
 INSERT INTO "users_prefer_themes" (user_id, prefer_theme_id)
 VALUES 
 (1, 4),
@@ -364,15 +311,11 @@ VALUES
 (3, 1);
 
 
- --DROP TABLE IF EXISTS "users_forbid_themes";
-
 CREATE TABLE "users_forbid_themes" (
   "user_id" BIGSERIAL NOT NULL,
   "forbid_theme_id" BIGSERIAL NOT NULL,
   
   PRIMARY KEY ("user_id","forbid_theme_id"),
-	
-    --KEY "FK_ROLE_idx" ("user_id"),
   
   CONSTRAINT "FK_USER_05" FOREIGN   KEY ("user_id") 
   REFERENCES "user" ("id") 
@@ -382,8 +325,6 @@ CREATE TABLE "users_forbid_themes" (
   REFERENCES "theme" ("id") 
   ON DELETE CASCADE ON UPDATE NO ACTION
 ) ;
-
---SET FOREIGN_KEY_CHECKS = 1;
 
 INSERT INTO "users_forbid_themes" (user_id, forbid_theme_id)
 VALUES 
