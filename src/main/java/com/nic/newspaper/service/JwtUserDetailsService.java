@@ -35,6 +35,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 	private PasswordEncoder bcryptEncoder;
 
 	@Override
+	@Transactional
 	public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
 
 		com.nic.newspaper.entity.User user = userDao.findByUserEmail(userEmail);

@@ -38,12 +38,6 @@ public class ArticleRestController {
 		return articleService.findAll(request);
 	}
 
-	@GetMapping("/articles/{articleId}")
-	public Article findArticleById(@PathVariable int articleId) {
-
-		return articleService.findArticleById(articleId);
-	}
-
 	@PostMapping("/addArticle")
 	public Article addArticle(@RequestBody CrmArticle theArticle) {
 

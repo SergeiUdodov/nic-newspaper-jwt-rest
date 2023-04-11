@@ -1,21 +1,13 @@
 package com.nic.newspaper.dao;
 
-import java.util.List;
-
 import com.nic.newspaper.entity.Role;
 import com.nic.newspaper.entity.User;
 
 public interface UserDAO {
 
-	public List<User> findAll();
-
-	public User findById(long theId);
-
 	public User findByUserEmail(String userEmail);
 
 	public User save(User theUser);
-
-	public void deleteById(int theId);
 
 	public Role findRoleByName(String theRoleName);
 

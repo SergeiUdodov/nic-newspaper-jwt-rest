@@ -1,7 +1,5 @@
 package com.nic.newspaper.service;
 
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,17 +26,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public List<User> findAll() {
-		return userDAO.findAll();
-	}
-
-	@Override
-	@Transactional
-	public User findById(int theId) {
-		return userDAO.findById(theId);
-	}
-
-	@Override
 	public User getUserByToken(HttpServletRequest request) {
 
 		final String requestTokenHeader = request.getHeader("Authorization");
