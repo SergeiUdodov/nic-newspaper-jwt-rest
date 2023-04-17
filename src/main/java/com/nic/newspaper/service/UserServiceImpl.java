@@ -1,5 +1,7 @@
 package com.nic.newspaper.service;
 
+import java.util.Collection;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nic.newspaper.config.JwtTokenUtil;
 import com.nic.newspaper.dao.UserDAO;
+import com.nic.newspaper.entity.Role;
 import com.nic.newspaper.entity.User;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -47,6 +50,19 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return userDAO.findByUserEmail(userEmail);
+	}
+
+	@Override
+	public boolean isUserAdmin(HttpServletRequest request) {
+		
+		boolean isAdmin = false;
+		Collection<Role> userRoles = getUserByToken(request).getRoles();
+		for (Role role : userRoles) {
+			if ("ROLE_ADMIN".equals(role.getName())) {
+				isAdmin = true;
+			}
+		}
+		return isAdmin;
 	}
 
 }

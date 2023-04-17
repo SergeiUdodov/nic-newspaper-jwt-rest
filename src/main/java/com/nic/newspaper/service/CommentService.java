@@ -1,15 +1,21 @@
 package com.nic.newspaper.service;
 
+import java.util.List;
+
 import com.nic.newspaper.entity.Article;
 import com.nic.newspaper.entity.Comment;
 import com.nic.newspaper.model.CrmComment;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 public interface CommentService {
 
-	public Article save(CrmComment theComment, String username, long articleId);
+	public Article save(long articleId, CrmComment theComment, HttpServletRequest request);
 
 	Comment findCommentById(long commentId);
 
 	public void deleteCommentById(long commentId);
+	
+	public List<Comment> aritcleComments(long aritcleId);
 
 }

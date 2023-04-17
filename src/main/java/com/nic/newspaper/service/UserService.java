@@ -7,5 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public interface UserService {
 
 	public User getUserByToken(HttpServletRequest request);
+	
+	public boolean isUserAdmin(HttpServletRequest request);
 
 }

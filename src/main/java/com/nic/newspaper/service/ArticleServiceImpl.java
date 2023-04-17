@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.nic.newspaper.dao.ArticleDao;
 import com.nic.newspaper.entity.Article;
+import com.nic.newspaper.entity.Comment;
 import com.nic.newspaper.entity.Theme;
 import com.nic.newspaper.entity.User;
 import com.nic.newspaper.model.CrmArticle;
@@ -26,6 +27,9 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Autowired
 	public ArticleDao articleDao;
+	
+	@Autowired
+	private CommentService commentService;
 
 	@Autowired
 	private UserService userService;
@@ -138,6 +142,21 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	@Transactional
 	public void deleteArticleById(long articleId) {
+		
+		Article tempArticle = findArticleById(articleId);
+
+		if (tempArticle == null) {
+			throw new RuntimeException("Article id not found - " + articleId);
+		}
+
+		List<Comment> comments = tempArticle.getComments();
+
+		if (comments != null) {
+
+			for (Comment comment : comments) {
+				commentService.deleteCommentById(comment.getId());
+			}
+		}
 
 		articleDao.deleteArticleById(articleId);
 

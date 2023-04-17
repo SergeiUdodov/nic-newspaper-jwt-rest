@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nic.newspaper.entity.Article;
-import com.nic.newspaper.entity.Comment;
 import com.nic.newspaper.model.CrmArticle;
 import com.nic.newspaper.service.ArticleService;
-import com.nic.newspaper.service.CommentService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -28,9 +26,6 @@ public class ArticleRestController {
 
 	@Autowired
 	private ArticleService articleService;
-
-	@Autowired
-	private CommentService commentService;
 
 	@GetMapping("/articles")
 	public List<Article> findAll(HttpServletRequest request) {
@@ -47,21 +42,6 @@ public class ArticleRestController {
 
 	@DeleteMapping("/deleteArticle/{articleId}")
 	public String deleteArticle(@PathVariable long articleId) {
-
-		Article tempArticle = articleService.findArticleById(articleId);
-
-		if (tempArticle == null) {
-			throw new RuntimeException("Article id not found - " + articleId);
-		}
-
-		List<Comment> comments = tempArticle.getComments();
-
-		if (comments != null) {
-
-			for (Comment comment : comments) {
-				commentService.deleteCommentById(comment.getId());
-			}
-		}
 
 		articleService.deleteArticleById(articleId);
 
