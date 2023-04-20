@@ -45,7 +45,6 @@ public class JwtUserDetailsService implements UserDetailsService {
 		}
 
 		return new User(user.getEmail(), user.getPassword(), user.getRoles());
-
 	}
 
 	@Transactional
@@ -56,8 +55,8 @@ public class JwtUserDetailsService implements UserDetailsService {
 		newUser.setLastName(user.getLastName());
 		newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
 		newUser.setRoles(Arrays.asList(userDao.findRoleByName("ROLE_USER")));
-		return userDao.save(newUser);
-
+		userDao.save(newUser);
+		return newUser;
 	}
 
 	@Transactional
@@ -98,6 +97,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 			theUser.setPassword(bcryptEncoder.encode(crmUser.getPassword()));
 		}
 
-		return userDao.updateUser(theUser);
+		userDao.updateUser(theUser);
+		return theUser;
 	}
 }

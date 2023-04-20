@@ -8,12 +8,12 @@ public interface ArticleDao {
 
 	public List<Article> findAll();
 
-	public Article save(Article theArticle);
+	public void save(Article theArticle);
+	
+	public void update(Article theArticle);
 
 	public Article findArticleById(long articleId);
 
 	public void deleteArticleById(long articleId);
-
-	Article update(Article theArticle);
 
 }

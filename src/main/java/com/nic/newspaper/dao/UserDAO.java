@@ -7,10 +7,10 @@ public interface UserDAO {
 
 	public User findByUserEmail(String userEmail);
 
-	public User save(User theUser);
+	public void save(User theUser);
+	
+	public void updateUser(User theUser);
 
 	public Role findRoleByName(String theRoleName);
-
-	public User updateUser(User theUser);
 
 }

@@ -13,10 +13,8 @@ import jakarta.persistence.EntityManager;
 @Repository
 public class UserDAOImpl implements UserDAO {
 
-	// define field for entitymanager
 	private EntityManager entityManager;
 
-	// set up constructor injection
 	@Autowired
 	public UserDAOImpl(EntityManager theEntityManager) {
 		entityManager = theEntityManager;
@@ -24,10 +22,9 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public User findByUserEmail(String userEmail) {
-		// get the current hibernate session
+		
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		// now retrieve/read from database using username
 		Query<User> theQuery = currentSession.createQuery("from User where email=:uEmail", User.class);
 		theQuery.setParameter("uEmail", userEmail);
 		User theUser = null;
@@ -41,34 +38,28 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public User save(User theUser) {
+	public void save(User theUser) {
 
-		// get the current hibernate session
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		// save User
 		currentSession.persist(theUser);
 
-		return currentSession.get(User.class, theUser.getId());
 	}
 
 	@Override
-	public User updateUser(User theUser) {
+	public void updateUser(User theUser) {
 
 		Session currentSession = entityManager.unwrap(Session.class);
 
 		currentSession.saveOrUpdate(theUser);
 
-		return currentSession.get(User.class, theUser.getId());
 	}
 
 	@Override
 	public Role findRoleByName(String theRoleName) {
 
-		// get the current hibernate session
 		Session currentSession = entityManager.unwrap(Session.class);
 
-		// now retrieve/read from database using name
 		Query<Role> theQuery = currentSession.createQuery("from Role where name=:roleName", Role.class);
 		theQuery.setParameter("roleName", theRoleName);
 

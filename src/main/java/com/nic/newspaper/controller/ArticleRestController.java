@@ -34,9 +34,9 @@ public class ArticleRestController {
 	}
 
 	@PostMapping("/addArticle")
-	public Article addArticle(@RequestBody CrmArticle theArticle) {
+	public void addArticle(@RequestBody CrmArticle theArticle) {
 
-		return articleService.save(theArticle);
+		articleService.save(theArticle);
 
 	}
 
@@ -49,14 +49,14 @@ public class ArticleRestController {
 	}
 
 	@PutMapping("/updateArticle/{articleId}")
-	public Article updateArticle(@PathVariable int articleId, @RequestBody CrmArticle theArticle) {
+	public void updateArticle(@PathVariable int articleId, @RequestBody CrmArticle theArticle) {
 
-		return articleService.update(articleId, theArticle);
+		articleService.update(articleId, theArticle);
 	}
 
 	@PostMapping("/likeArticle/{articleId}")
-	public Article likeArticle(@PathVariable long articleId, HttpServletRequest request) {
+	public void likeArticle(@PathVariable long articleId, HttpServletRequest request) {
 
-		return articleService.likeArticle(articleId, request);
+		articleService.likeArticle(articleId, request);
 	}
 }

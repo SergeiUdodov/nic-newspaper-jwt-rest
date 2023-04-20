@@ -11,15 +11,13 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.nic.newspaper.config.JwtTokenUtil;
 import com.nic.newspaper.dao.ArticleDao;
 import com.nic.newspaper.dao.CommentDao;
-import com.nic.newspaper.dao.UserDAO;
 import com.nic.newspaper.entity.Article;
 import com.nic.newspaper.entity.Comment;
+import com.nic.newspaper.entity.User;
 import com.nic.newspaper.model.CrmComment;
 
-import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 
@@ -27,14 +25,11 @@ import jakarta.transaction.Transactional;
 public class CommentServiceImpl implements CommentService {
 
 	@Autowired
-	ArticleService articleService;
+	private ArticleService articleService;
 	
 	@Autowired
-	public ArticleDao articleDao;
+	private ArticleDao articleDao;
 
-	@Autowired
-	private UserDAO userDao;
-	
 	@Autowired
 	private CommentService commentService;
 
@@ -42,7 +37,7 @@ public class CommentServiceImpl implements CommentService {
 	private CommentDao commentDao;
 	
 	@Autowired
-	private JwtTokenUtil jwtTokenUtil;
+	private UserService userService;
 	
 	protected final Log logger = LogFactory.getLog(getClass());
 
@@ -51,35 +46,17 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	@Transactional
 	public Article save(long articleId, CrmComment theComment, HttpServletRequest request) {
-		
-		final String requestTokenHeader = request.getHeader("Authorization");
 
-		String userEmail = null;
-		String jwtToken = null;
-
-		if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-			jwtToken = requestTokenHeader.substring(7);
-			try {
-				userEmail = jwtTokenUtil.getUserEmailFromToken(jwtToken);
-			} catch (IllegalArgumentException e) {
-				System.out.println("Unable to get JWT Token");
-			} catch (ExpiredJwtException e) {
-				System.out.println("JWT Token has expired");
-			}
-		} else {
-			logger.warn("JWT Token is null or does not begin with Bearer String");
-		}
-
-		Article theArticle = articleDao.findArticleById(articleId);
+		Article theArticle = articleService.findArticleById(articleId);
 
 		if (theArticle == null) {
 			throw new RuntimeException("Article id not found - " + articleId);
 		}
 
-		com.nic.newspaper.entity.User theUser = userDao.findByUserEmail(userEmail);
+		User theUser = userService.getUserByToken(request);
 
 		if (theUser == null) {
-			throw new RuntimeException("User email not found - " + userEmail);
+			throw new RuntimeException("User not found");
 		}
 
 		Comment newComment = new Comment();
@@ -91,13 +68,14 @@ public class CommentServiceImpl implements CommentService {
 		newComment.setDate(currentDate);
 
 		newComment.setUser(theUser);
-		newComment = commentDao.save(newComment);
 
 		List<Comment> comments = theArticle.getComments();
 		comments.add(newComment);
 		theArticle.setComments(comments);
 
-		return articleDao.update(theArticle);
+		articleDao.update(theArticle);
+		
+		return theArticle;
 	}
 
 	@Override
@@ -111,7 +89,6 @@ public class CommentServiceImpl implements CommentService {
 		}
 
 		commentDao.deleteCommentById(commentId);
-
 	}
 
 	@Override
@@ -122,10 +99,19 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public List<Comment> aritcleComments(long aritcleId) {
+	public List<Comment> articleComments(long aritcleId) {
 		
-		List<Comment> comments = articleService.findArticleById(aritcleId).getComments();
+		Article article = articleService.findArticleById(aritcleId);
+		if(article == null) {
+			return null;
+		}
+		
+		List<Comment> comments = article.getComments();
+		if(comments == null) {
+			return null;
+		}
 
+		//sorting articles by publication date
 		Comparator<Comment> byDate = (first, second) -> {
 			try {
 				return formatter.parse(second.getDate()).compareTo(formatter.parse(first.getDate()));

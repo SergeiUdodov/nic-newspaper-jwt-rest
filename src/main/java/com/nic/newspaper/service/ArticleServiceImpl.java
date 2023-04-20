@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +44,8 @@ public class ArticleServiceImpl implements ArticleService {
 	public List<Article> findAll(HttpServletRequest request) {
 
 		List<Article> articles = articleDao.findAll();
-
+		
+		//sorting articles by publication date
 		Comparator<Article> byDate = (first, second) -> {
 			try {
 				return formatter.parse(second.getDate()).compareTo(formatter.parse(first.getDate()));
@@ -60,38 +61,70 @@ public class ArticleServiceImpl implements ArticleService {
 		String requestTokenHeader = request.getHeader("Authorization");
 
 		if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
+			
+			//retrieving current logged user from db
 			User currentUser = userService.getUserByToken(request);
+			
+			if(currentUser == null) {
+				throw new RuntimeException("User not found");
+			}
 
 			List<Article> articlesForRemove = new ArrayList<>();
+			
+			List<Theme> forbidenThemes = currentUser.getForbid();
 
+			//checking if any forbidden theme of current user contains in any article
+			//and preparing for deleting such articles from initial list of articles
 			for (Article article : articles) {
-				if (!Collections.disjoint(article.getThemes(), currentUser.getForbid())) {
+				if (!Collections.disjoint(article.getThemes(), forbidenThemes)) {
 					articlesForRemove.add(article);
 				}
 			}
 
+			//deleting articles with forbidden from initial list of articles
 			articles.removeAll(articlesForRemove);
 
-			List<Theme> preferedArticles = currentUser.getPrefer();
-
-			class Intersection {
-				private static int compute(Article article, List<Theme> list) {
-					int result = 0;
-					for (Theme theme : list) {
-						if (article.getThemes().contains(theme)) {
-							result++;
-						}
-					}
-					return result;
+			List<Theme> preferredThemes = currentUser.getPrefer();
+			
+			//sorting articles by preferred themes
+			Comparator<Article> byPreferredThemes = (first, second) -> checkThemesIntersection(second, preferredThemes)
+					- checkThemesIntersection(first, preferredThemes);
+			articles.sort(byPreferredThemes);
+		}
+		
+		//filter to get articles published less than 24 hours ago
+		articles = articles.stream().filter(article -> isArticlePublishedDuringLastDay(article)).collect(Collectors.toList());
+		
+		return articles;
+	}
+	
+		private int checkThemesIntersection(Article article, List<Theme> list) {
+			int result = 0;
+			List<Theme> articleThemes = article.getThemes();
+			
+			if(articleThemes == null) {
+				return result;
+			}
+			
+			for (Theme theme : list) {
+				if (articleThemes.contains(theme)) {
+					result++;
 				}
 			}
-			Comparator<Article> byPreferThemes = (first, second) -> Intersection.compute(second, preferedArticles)
-					- Intersection.compute(first, preferedArticles);
-			articles.sort(byPreferThemes);
+			return result;
 		}
-
-		return articles;
-
+	
+		private boolean isArticlePublishedDuringLastDay(Article article){
+		
+		boolean result = false;
+		
+		try {
+			result = new Date().getTime() - formatter.parse(article.getDate()).getTime() < 24 * 60 * 60 * 1000;
+			}
+		catch(ParseException e) {
+			return result;
+		}
+		return result;
 	}
 
 	@Override
@@ -109,17 +142,58 @@ public class ArticleServiceImpl implements ArticleService {
 
 		newArticle.setImageURL(theArticle.getImageURL());
 
+		List<Theme> themes = extractThemes(theArticle);
+		newArticle.setThemes(themes);
+
+		articleDao.save(newArticle);
+		
+		return newArticle;
+	}
+	
+	@Override
+	@Transactional
+	public Article update(long articleId, CrmArticle theArticle) {
+
+		Article newArticle = findArticleById(articleId);
+
+		if (newArticle == null) {
+			throw new RuntimeException("Article id not found - " + articleId);
+		}
+
+		newArticle.setHeader(theArticle.getHeader());
+		newArticle.setContent(theArticle.getContent());
+
+		Date current = new Date();
+		String currentDate = formatter.format(current);
+		newArticle.setDate(currentDate);
+
+		newArticle.setImageURL(theArticle.getImageURL());
+
+		List<Theme> themes = extractThemes(theArticle);
+		newArticle.setThemes(themes);
+
+		articleDao.update(newArticle);
+		
+		return newArticle;
+	}
+	
+		private List<Theme> extractThemes(CrmArticle theArticle) {
+		//getting themes specified during creation or updating article
 		String[] themesNames = theArticle.getThemes().toLowerCase().split("[^a-zа-я0-9]+");
+		//removing repeating themes
 		String[] uniqueNames = Arrays.stream(themesNames).distinct().toArray(String[]::new);
 
 		List<Theme> themes = new ArrayList<>();
 
+		//adding themes into final list
 		Theme temp = null;
 		for (String themeName : uniqueNames) {
 			if (!"".equals(themeName)) {
 				temp = themeService.findThemeByName(themeName);
+				//if theme already exists in db then just add it into final list
 				if (temp != null) {
 					themes.add(temp);
+				//if not, then at first add such theme into db, and then add it into final list
 				} else {
 					temp = themeService.save(new Theme(themeName));
 					themes.add(temp);
@@ -127,9 +201,7 @@ public class ArticleServiceImpl implements ArticleService {
 			}
 		}
 		temp = null;
-		newArticle.setThemes(themes);
-
-		return articleDao.save(newArticle);
+		return themes;
 	}
 
 	@Override
@@ -159,49 +231,6 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 
 		articleDao.deleteArticleById(articleId);
-
-	}
-
-	@Override
-	@Transactional
-	public Article update(long articleId, CrmArticle theArticle) {
-
-		Article newArticle = articleDao.findArticleById(articleId);
-
-		if (newArticle == null) {
-			throw new RuntimeException("Article id not found - " + articleId);
-		}
-
-		newArticle.setHeader(theArticle.getHeader());
-		newArticle.setContent(theArticle.getContent());
-
-		Date current = new Date();
-		String currentDate = formatter.format(current);
-		newArticle.setDate(currentDate);
-
-		newArticle.setImageURL(theArticle.getImageURL());
-
-		String[] themesNames = theArticle.getThemes().toLowerCase().split("[^a-zа-я0-9]+");
-		String[] uniqueNames = Arrays.stream(themesNames).distinct().toArray(String[]::new);
-
-		List<Theme> themes = new ArrayList<>();
-
-		Theme temp = null;
-		for (String themeName : uniqueNames) {
-			if (!"".equals(themeName)) {
-				temp = themeService.findThemeByName(themeName);
-				if (temp != null) {
-					themes.add(temp);
-				} else {
-					temp = themeService.save(new Theme(themeName));
-					themes.add(temp);
-				}
-			}
-		}
-		temp = null;
-		newArticle.setThemes(themes);
-
-		return articleDao.update(newArticle);
 	}
 
 	@Override
@@ -210,14 +239,16 @@ public class ArticleServiceImpl implements ArticleService {
 
 		User currentUser = userService.getUserByToken(request);
 
-		Article theArticle = articleDao.findArticleById(articleId);
+		Article theArticle = findArticleById(articleId);
 
 		if (theArticle == null) {
 			throw new RuntimeException("Article id not found - " + articleId);
 		}
-
+		
+		//getting list of users that liked this article
 		List<User> likes = theArticle.getLikes();
-
+		
+		//every time user clicks like on this article we add and remove him from list of likers consistently
 		if (likes.contains(currentUser)) {
 			likes.remove(currentUser);
 		} else {
@@ -226,7 +257,9 @@ public class ArticleServiceImpl implements ArticleService {
 
 		theArticle.setLikes(likes);
 
-		return articleDao.update(theArticle);
+		articleDao.update(theArticle);
+		
+		return theArticle;
 	}
 
 }

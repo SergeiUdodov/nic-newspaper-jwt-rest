@@ -12,10 +12,10 @@ public interface CommentService {
 
 	public Article save(long articleId, CrmComment theComment, HttpServletRequest request);
 
-	Comment findCommentById(long commentId);
+	public Comment findCommentById(long commentId);
 
 	public void deleteCommentById(long commentId);
 	
-	public List<Comment> aritcleComments(long aritcleId);
+	public List<Comment> articleComments(long aritcleId);
 
 }

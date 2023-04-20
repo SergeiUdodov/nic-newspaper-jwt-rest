@@ -1,6 +1,7 @@
 package com.nic.newspaper.entity;
 
 import java.util.List;
+import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -125,6 +126,25 @@ public class Article {
 	@Override
 	public String toString() {
 		return "Article [id=" + id + ", header=" + header + ", content=" + content + ", date=" + date + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(content, date, header, id, imageURL);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Article other = (Article) obj;
+		return Objects.equals(content, other.content) && Objects.equals(date, other.date)
+				&& Objects.equals(header, other.header) && Objects.equals(id, other.id)
+				&& Objects.equals(imageURL, other.imageURL);
 	}
 
 }

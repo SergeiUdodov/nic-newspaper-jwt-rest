@@ -33,6 +33,3 @@ build/
 .vscode/
 
 .metadata/
-/.mvn/
-/sql-scripts/
-/src/

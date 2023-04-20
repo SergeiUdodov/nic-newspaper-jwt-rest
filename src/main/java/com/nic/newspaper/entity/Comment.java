@@ -1,5 +1,7 @@
 package com.nic.newspaper.entity;
 
+import java.util.Objects;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -75,6 +77,23 @@ public class Comment {
 	@Override
 	public String toString() {
 		return "Comment [id=" + id + ", text=" + text + ", date=" + date + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(date, id, text);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Comment other = (Comment) obj;
+		return Objects.equals(date, other.date) && Objects.equals(id, other.id) && Objects.equals(text, other.text);
 	}
 
 }

@@ -1,6 +1,6 @@
 package com.nic.newspaper.service;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -53,10 +53,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public boolean isUserAdmin(HttpServletRequest request) {
 		
 		boolean isAdmin = false;
-		Collection<Role> userRoles = getUserByToken(request).getRoles();
+		List<Role> userRoles = getUserByToken(request).getRoles();
 		for (Role role : userRoles) {
 			if ("ROLE_ADMIN".equals(role.getName())) {
 				isAdmin = true;

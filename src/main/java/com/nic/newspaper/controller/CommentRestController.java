@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nic.newspaper.entity.Article;
 import com.nic.newspaper.entity.Comment;
 import com.nic.newspaper.model.CrmComment;
 import com.nic.newspaper.service.CommentService;
@@ -31,10 +30,10 @@ public class CommentRestController {
 	SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
 	@PostMapping("/addComment/{articleId}")
-	public Article addComment(@PathVariable long articleId, @RequestBody CrmComment theComment,
+	public void addComment(@PathVariable long articleId, @RequestBody CrmComment theComment,
 			HttpServletRequest request) {
 
-		return commentService.save(articleId, theComment, request);
+		commentService.save(articleId, theComment, request);
 
 	}
 
@@ -50,7 +49,7 @@ public class CommentRestController {
 	@GetMapping("/comments/{aritcleId}")
 	public List<Comment> aritcleComments(@PathVariable long aritcleId) {
 		
-		return commentService.aritcleComments(aritcleId);
+		return commentService.articleComments(aritcleId);
 	}
 
 }

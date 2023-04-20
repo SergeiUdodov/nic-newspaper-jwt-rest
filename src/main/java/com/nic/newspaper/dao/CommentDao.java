@@ -4,10 +4,10 @@ import com.nic.newspaper.entity.Comment;
 
 public interface CommentDao {
 
-	Comment save(Comment newComment);
+	public Comment save(Comment newComment);
 
-	Comment findCommentById(long commentId);
+	public Comment findCommentById(long commentId);
 
-	void deleteCommentById(long commentId);
+	public void deleteCommentById(long commentId);
 
 }
