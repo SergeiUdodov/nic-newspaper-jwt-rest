@@ -1,7 +1,5 @@
 package com.nic.newspaper.dao;
 
-import org.hibernate.Session;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +7,7 @@ import com.nic.newspaper.entity.Role;
 import com.nic.newspaper.entity.User;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -23,13 +22,11 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public User findByUserEmail(String userEmail) {
 		
-		Session currentSession = entityManager.unwrap(Session.class);
-
-		Query<User> theQuery = currentSession.createQuery("from User where email=:uEmail", User.class);
-		theQuery.setParameter("uEmail", userEmail);
+		TypedQuery<User> query = entityManager.createQuery("from User where email=:uEmail", User.class);
+		query.setParameter("uEmail", userEmail);
 		User theUser = null;
-		try {
-			theUser = theQuery.getSingleResult();
+        try {
+        	theUser = query.getSingleResult();
 		} catch (Exception e) {
 			theUser = null;
 		}
@@ -39,34 +36,26 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void save(User theUser) {
-
-		Session currentSession = entityManager.unwrap(Session.class);
-
-		currentSession.persist(theUser);
+		
+		entityManager.persist(theUser);
 
 	}
 
 	@Override
 	public void updateUser(User theUser) {
-
-		Session currentSession = entityManager.unwrap(Session.class);
-
-		currentSession.saveOrUpdate(theUser);
+		
+		entityManager.merge(theUser);
 
 	}
 
 	@Override
 	public Role findRoleByName(String theRoleName) {
-
-		Session currentSession = entityManager.unwrap(Session.class);
-
-		Query<Role> theQuery = currentSession.createQuery("from Role where name=:roleName", Role.class);
-		theQuery.setParameter("roleName", theRoleName);
-
+		
+		TypedQuery<Role> query = entityManager.createQuery("from Role where name=:roleName", Role.class);
+		query.setParameter("roleName", theRoleName);
 		Role theRole = null;
-
-		try {
-			theRole = theQuery.getSingleResult();
+        try {
+        	theRole = query.getSingleResult();
 		} catch (Exception e) {
 			theRole = null;
 		}

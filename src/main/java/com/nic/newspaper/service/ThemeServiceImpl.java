@@ -29,8 +29,8 @@ public class ThemeServiceImpl implements ThemeService {
 
 	@Override
 	@Transactional
-	public Theme save(Theme theTheme) {
-		return themeDao.save(theTheme);
+	public void save(Theme theTheme) {
+		themeDao.save(theTheme);
 	}
 
 	@Override

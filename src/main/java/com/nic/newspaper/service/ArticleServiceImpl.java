@@ -195,7 +195,9 @@ public class ArticleServiceImpl implements ArticleService {
 					themes.add(temp);
 				//if not, then at first add such theme into db, and then add it into final list
 				} else {
-					temp = themeService.save(new Theme(themeName));
+					themeService.save(new Theme(themeName));
+					temp = themeService.findThemeByName(themeName);
+
 					themes.add(temp);
 				}
 			}

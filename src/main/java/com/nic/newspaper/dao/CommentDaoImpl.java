@@ -1,7 +1,5 @@
 package com.nic.newspaper.dao;
 
-import org.hibernate.Session;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -16,34 +14,17 @@ public class CommentDaoImpl implements CommentDao {
 	private EntityManager entityManager;
 
 	@Override
-	public Comment save(Comment newComment) {
-
-		Session currentSession = entityManager.unwrap(Session.class);
-
-		currentSession.saveOrUpdate(newComment);
-
-		return currentSession.get(Comment.class, newComment.getId());
-	}
-
-	@Override
 	public Comment findCommentById(long commentId) {
-
-		Session currentSession = entityManager.unwrap(Session.class);
-
-		Comment theComment = currentSession.get(Comment.class, commentId);
-
-		return theComment;
+		
+		return entityManager.find(Comment.class, commentId);
 	}
 
 	@Override
 	public void deleteCommentById(long commentId) {
-
-		Session currentSession = entityManager.unwrap(Session.class);
-
-		Query theQuery = currentSession.createQuery("delete from Comment where id=:CommentId");
-		theQuery.setParameter("CommentId", commentId);
-
-		theQuery.executeUpdate();
+		
+		jakarta.persistence.Query theQuery = entityManager.createQuery("delete from Comment where id=:CommentId");
+        theQuery.setParameter("CommentId", commentId);
+        theQuery.executeUpdate();
 
 	}
 

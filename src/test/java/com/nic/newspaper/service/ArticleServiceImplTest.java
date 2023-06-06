@@ -103,9 +103,9 @@ class ArticleServiceImplTest {
 	@Test
 	void testSave() {
 		
-		Mockito.when(themeService.save(new Theme("theme1"))).thenReturn(new Theme("theme1"));
-		Mockito.when(themeService.save(new Theme("theme2"))).thenReturn(new Theme("theme2"));
-		Mockito.when(themeService.save(new Theme("theme3"))).thenReturn(new Theme("theme3"));
+		Mockito.when(themeService.findThemeByName("theme1")).thenReturn(new Theme("theme1"));
+		Mockito.when(themeService.findThemeByName("theme2")).thenReturn(new Theme("theme2"));
+		Mockito.when(themeService.findThemeByName("theme3")).thenReturn(new Theme("theme3"));
 		
 		CrmArticle crmArticle = getCrmArticle();
 		Article result = articleServiceImpl.save(crmArticle);
@@ -131,9 +131,9 @@ class ArticleServiceImplTest {
 		
 		Mockito.when(articleServiceImpl.findArticleById(99)).thenReturn(null);
 		Mockito.when(articleServiceImpl.findArticleById(0)).thenReturn(getArticlesWithThemes().get(0));
-		Mockito.when(themeService.save(new Theme("theme1"))).thenReturn(new Theme("theme1"));
-		Mockito.when(themeService.save(new Theme("theme2"))).thenReturn(new Theme("theme2"));
-		Mockito.when(themeService.save(new Theme("theme3"))).thenReturn(new Theme("theme3"));
+		Mockito.when(themeService.findThemeByName("theme1")).thenReturn(new Theme("theme1"));
+		Mockito.when(themeService.findThemeByName("theme2")).thenReturn(new Theme("theme2"));
+		Mockito.when(themeService.findThemeByName("theme3")).thenReturn(new Theme("theme3"));
 		
 		CrmArticle crmArticle = getCrmArticle();
 		Article result = articleServiceImpl.update(0, crmArticle);

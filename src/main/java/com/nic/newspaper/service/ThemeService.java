@@ -8,7 +8,7 @@ public interface ThemeService {
 
 	public List<Theme> findAllThemes();
 
-	public Theme save(Theme theTheme);
+	public void save(Theme theTheme);
 
 	public Theme findThemeByName(String name);
 
