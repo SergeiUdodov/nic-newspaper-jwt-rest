@@ -1,7 +1,5 @@
 package com.nic.newspaper.entity;
 
-import java.util.Objects;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,7 +11,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "comment", schema = "public")
 public class Comment {
@@ -33,67 +35,9 @@ public class Comment {
 	@JoinTable(name = "users_comments", joinColumns = @JoinColumn(name = "comment_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private User user;
 
-	public Comment() {
-		super();
-	}
-
 	public Comment(String text, String date) {
 		this.text = text;
 		this.date = date;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	@Override
-	public String toString() {
-		return "Comment [id=" + id + ", text=" + text + ", date=" + date + "]";
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(date, id, text);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Comment other = (Comment) obj;
-		return Objects.equals(date, other.date) && Objects.equals(id, other.id) && Objects.equals(text, other.text);
 	}
 
 }

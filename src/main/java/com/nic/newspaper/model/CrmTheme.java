@@ -1,19 +1,10 @@
 package com.nic.newspaper.model;
 
+import lombok.Data;
+
+@Data
 public class CrmTheme {
 
 	private String name;
-
-	public CrmTheme() {
-
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 }

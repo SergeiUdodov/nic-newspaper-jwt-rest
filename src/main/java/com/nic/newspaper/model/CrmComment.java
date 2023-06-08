@@ -1,19 +1,10 @@
 package com.nic.newspaper.model;
 
+import lombok.Data;
+
+@Data
 public class CrmComment {
 
 	private String text;
-
-	public CrmComment() {
-
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
 
 }
