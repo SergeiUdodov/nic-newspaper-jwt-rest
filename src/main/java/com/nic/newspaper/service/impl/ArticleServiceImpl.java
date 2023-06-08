@@ -1,4 +1,4 @@
-package com.nic.newspaper.service;
+package com.nic.newspaper.service.impl;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,6 +18,10 @@ import com.nic.newspaper.entity.Comment;
 import com.nic.newspaper.entity.Theme;
 import com.nic.newspaper.entity.User;
 import com.nic.newspaper.model.CrmArticle;
+import com.nic.newspaper.service.ArticleService;
+import com.nic.newspaper.service.CommentService;
+import com.nic.newspaper.service.ThemeService;
+import com.nic.newspaper.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;

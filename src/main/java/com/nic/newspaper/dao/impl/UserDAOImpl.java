@@ -1,8 +1,9 @@
-package com.nic.newspaper.dao;
+package com.nic.newspaper.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.nic.newspaper.dao.UserDAO;
 import com.nic.newspaper.entity.Role;
 import com.nic.newspaper.entity.User;
 

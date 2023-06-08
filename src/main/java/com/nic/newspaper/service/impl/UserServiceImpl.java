@@ -1,4 +1,4 @@
-package com.nic.newspaper.service;
+package com.nic.newspaper.service.impl;
 
 import java.util.List;
 
@@ -12,6 +12,7 @@ import com.nic.newspaper.config.JwtTokenUtil;
 import com.nic.newspaper.dao.UserDAO;
 import com.nic.newspaper.entity.Role;
 import com.nic.newspaper.entity.User;
+import com.nic.newspaper.service.UserService;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletRequest;

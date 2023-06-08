@@ -19,6 +19,7 @@ import com.nic.newspaper.entity.Article;
 import com.nic.newspaper.entity.Comment;
 import com.nic.newspaper.entity.User;
 import com.nic.newspaper.model.CrmComment;
+import com.nic.newspaper.service.impl.CommentServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 class CommentServiceImplTest {

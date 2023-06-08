@@ -1,10 +1,11 @@
-package com.nic.newspaper.dao;
+package com.nic.newspaper.dao.impl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.nic.newspaper.dao.ArticleDao;
 import com.nic.newspaper.entity.Article;
 
 import jakarta.persistence.EntityManager;

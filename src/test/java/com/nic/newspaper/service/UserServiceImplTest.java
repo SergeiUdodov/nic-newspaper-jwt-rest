@@ -16,6 +16,7 @@ import com.nic.newspaper.config.JwtTokenUtil;
 import com.nic.newspaper.dao.UserDAO;
 import com.nic.newspaper.entity.Role;
 import com.nic.newspaper.entity.User;
+import com.nic.newspaper.service.impl.UserServiceImpl;
 
 import jakarta.servlet.http.HttpServletRequest;
 

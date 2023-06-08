@@ -1,4 +1,4 @@
-package com.nic.newspaper.service;
+package com.nic.newspaper.service.impl;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.nic.newspaper.dao.ArticleDao;
 import com.nic.newspaper.dao.ThemeDao;
 import com.nic.newspaper.entity.Theme;
+import com.nic.newspaper.service.ThemeService;
 
 import jakarta.transaction.Transactional;
 

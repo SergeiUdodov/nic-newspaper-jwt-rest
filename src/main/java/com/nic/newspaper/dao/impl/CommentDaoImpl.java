@@ -1,8 +1,9 @@
-package com.nic.newspaper.dao;
+package com.nic.newspaper.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.nic.newspaper.dao.CommentDao;
 import com.nic.newspaper.entity.Comment;
 
 import jakarta.persistence.EntityManager;
